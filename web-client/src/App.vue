@@ -58,7 +58,7 @@ nav {
     &:hover {
       rotate: -360deg 1 2 1;
       opacity: 81%;
-      filter: blur(1px);
+      // filter: blur(1px);
     }
   }
 }
