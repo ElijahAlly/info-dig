@@ -33,13 +33,15 @@ nav {
     color: #2c3e50;
     margin: 0 1em;    
     transition: 0.3s ease-in-out;
+    text-decoration: none;
 
     &.router-link-exact-active {
       color: #42b983;
     }
 
     &:hover {
-      text-shadow: #2c3e50;
+      color: orangered;
+      padding-bottom: 3px;
     }
   }
 
@@ -57,8 +59,7 @@ nav {
 
     &:hover {
       rotate: -360deg 1 2 1;
-      opacity: 81%;
-      // filter: blur(1px);
+      opacity: 60%;
     }
   }
 }
