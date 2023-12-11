@@ -23,6 +23,12 @@ const routes: Array<RouteRecordRaw> = [
     component: StatementsView,
   },
   {
+    path: '/statements/:slug',
+    name: 'statement-detail',
+    // Lazy load the StatementDetailView component
+    component: () => import(/* webpackChunkName: "statement-detail" */ '../views/StatementDetailView.vue')
+  },
+  {
     path: "/proposals",
     name: "proposals",
     component: () =>

@@ -1,10 +1,10 @@
 // Statement
 pub mod statement;
 
-pub use statement::{Statement, NewStatement};
+pub use statement::{Statement, NewStatement, UpdateStatement};
 
 // ENUMs
-mod enums;
+pub mod enums;
 
 // Re-export the enums
 pub use self::enums::*;

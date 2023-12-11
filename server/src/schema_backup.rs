@@ -1,4 +1,3 @@
-// // @generated automatically by Diesel CLI.
 // * Manually copied schema to save last working schema file
 // ! UPDATE before running migrations that will auto-generate schema.rs file
 
@@ -54,7 +53,6 @@ diesel::table! {
     statements (statement_id) {
         statement_id -> Int4,
         user_id -> Int4,
-        slug -> Text,
         content -> Text,
         context -> Nullable<Text>,
         public_rating -> Nullable<Text>,
