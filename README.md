@@ -1,5 +1,15 @@
 # [info-dig.com](https://info-dig.com)
 
+
+[Purpose](#)
+- [How App Works](#)
+- [The Money Part](#)
+
+[For Developers](#)
+- [Tech Stack](#)
+
+
+
 Where can you get the facts your looking for? 
 Tired of institutions being the sole arbitors of truth? 
 
@@ -60,5 +70,26 @@ What are the actions an Organization is expected to take with the money they rec
 - Professional drafting of legislation
 - Public awareness campaigns, legal consultations, etc., depending on the specific needs of the proposal.
 
+## For Developers
 
+### Tech Stack
+
+Current Technology stack:
+- Rust
+- Vue.js (TypeScript)
+- Docker (Linux OS Preferred)
+- PostgreSQL
+
+Future Technology Stack:
+- ...
+
+Current Deployment Technology: 
+- Docker Compose
+- Nginx 
+
+Future Deployment Technology:
+- Kompose (Use to migrate from Docker Compose <which only supports one “server?”> and move to Kubernetes Pods)
+- Kubernetes Pods (migrate from Docker-Compose later on. The reason is just to have experience with Kompose)
+- AWS Lambda (see if necessary when/after migrating to Kubernetes)
+- Redis (implement as cache mechanism later on)
 
