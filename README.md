@@ -5,7 +5,7 @@
 - [How App Works](#)
 - [The Money Part](#)
 
-[For Developers](#)
+[For Developers](#for-developers)
 - [Tech Stack](#)
 
 
