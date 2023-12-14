@@ -21,6 +21,8 @@
   - [Open Source](#open-source)
     - [Contributions](#contributions)
     - [Code Usage In Separate Applications](#code-usage-in-separate-applications)
+   
+[Photos Of App In Development](#photos-of-app-in-development)
 
 # 
 
@@ -144,3 +146,8 @@ Future Deployment Technology:
 
 ### Code Usage In Separate Applications
 ...
+
+
+# Photos Of App In Development
+
+<img width="1693" alt="Screenshot 2023-12-14 at 4 07 02 PM" src="https://github.com/ElijahAlly/info-dig/assets/75961076/b4816bcb-4a46-4302-a859-ea8794fb89dd">
