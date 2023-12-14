@@ -9,7 +9,7 @@
   - [Proposals](#proposals)
   - [Campaigns](#campaigns)
   - [Organizations](#organizations)
-- [The Money Part](#the-money-part)
+  - [The Money Part](#the-money-part)
 
 [For Developers](#for-developers)
 - [Tech Stack](#tech-stack)
@@ -64,7 +64,7 @@ We require this for the members of an organization because you, the people, will
 ### Organizations
 
 ### The Money Part
-**We are not FDIC insured, upload at your own risk. Never fund your wallet with money you cannot afford to lose!!**
+**_We are not FDIC insured, upload at your own risk. Never fund your wallet with money you cannot afford to lose!!_**
 
 Every person gets a wallet upon account creation. Navigate to your wallet to see $0.00 when you first sign up.
 - Fund your wallet with a minimum upload of $1
