@@ -12,7 +12,7 @@
   - [Organizations](#organizations)
   - [The Money Part](#the-money-part)
     - [Wallets](#wallets)
-    - [Contributions](#contributions)
+    - [Donations](#donations)
   - [Research](#research)
 
 [For Developers](#for-developers)
@@ -86,15 +86,14 @@ Every person gets a wallet upon account creation. Navigate to your wallet to see
 
 What can you use the money in your wallet for?
 
-<br></br>
 
-### Contributions
+### Donations
 
-Contribute to a Proposal
+Donating to a Proposal
 - No penalty for withdrawing from a proposal
 - We want the donations on each proposal to fluctuate as our opinions do, this is how we voice our political concerns within our capitalist system.
 
-Contribute to a Campaign
+Donating to a Campaign
 (Remember, a Proposal made by any person/organization can be claimed by an Organization, which they add attainable real-life goals to create a Campaign)
 - Once a Proposal is claimed/attributed to a Campiagn, the donations are "fixed" and **can no longer be withdrawn by any person other than the Organization behind the Campaign**.
  
@@ -142,7 +141,6 @@ Future Deployment Technology:
 ### Contributions
 ...
 
-<br></br>
 
 ### Code Usage In Separate Applications
 ...
