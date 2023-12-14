@@ -3,29 +3,30 @@
         <!-- * Separate into distinct card components with .map(statement => <Card :statement={...} />) -->
         <!-- * Add Color to statement in the header based on rating & add colored "labels" for both public_rating/our_rating -->
         <div v-if="firstChunk" class="cards-column-1">
-            <p>
-                {{ firstChunk }}
-            </p>
+            <Card v-for="(statement, i) in firstChunk" :key="i" :statement="statement" />
         </div>
-        <div v-if="secondChunk" class="cards-column-2">
-            <p>
-                {{ secondChunk }}
-            </p>
-        </div>
-        <div v-if="thirdChunk" class="cards-column-3">
-            <p>
-                {{ thirdChunk }}
-            </p>
-        </div>
-        <div v-else>
+        <p v-if="!firstChunk">
             Loading cards...
+        </p>
+        <div v-if="secondChunk" class="cards-column-2">
+            <Card v-for="(statement, i) in secondChunk" :key="i" :statement="statement" />
         </div>
+        <p v-if="!secondChunk">
+            Loading cards...
+        </p>
+        <div v-if="thirdChunk" class="cards-column-3">
+            <Card v-for="(statement, i) in thirdChunk" :key="i" :statement="statement" />
+        </div>
+        <p v-if="!thirdChunk">
+            Loading cards...
+        </p>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { StatementType } from '@/interfaces/statements';
+import Card from '@/components/Statements/Card.vue';
 
 export default defineComponent({
     name: 'Cards',
@@ -55,52 +56,45 @@ export default defineComponent({
             thirdChunk: null as StatementType[] | null,
         }
     },
+    components: {
+        Card
+    },
     props: {
-        cards: [],
+        cards: {
+            type: Array as () => StatementType[],
+            default: () => []
+        }
     },
 })
 </script>
 
-<!-- 
+<!--
     * Add "scoped" attribute to limit CSS to this component only
     * // Todo: Implement scroll snapping -> https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_scroll_snap/Basic_concepts 
 -->
+
 <style scoped lang="scss">
 .cards-cont {
-    padding: 51px;
     display: flex;
-    transition: 0.3s ease-in-out;
+    justify-content: space-evenly; 
+    margin-top: 3vh;
+    overflow-y: scroll;
+    max-height: 81vh;
+    width: 90vw;
 
-    .cards-column-1:hover {
-        background-color: #107fca;
-        cursor: pointer;
+    .cards-column-1 {
+    }
+    
+    .cards-column-2 {
+    }
+    
+    .cards-column-3 {
     }
 
-    .cards-column-2:hover {
-        background-color: #fcb900;
-        cursor: pointer;
-    }
-
-    .cards-column-3:hover {
-        background-color: #eb144c;
-        cursor: pointer;
+    @media (max-width: 700px) {
+        .cards-column-3 {
+            display: none;
+        }
     }
 }
-
-h3 {
-    margin: 40px 0 0;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    display: inline-block;
-    margin: 0 10px;
-}
-
-a {
-    color: #42b983;
-}</style>
+</style>

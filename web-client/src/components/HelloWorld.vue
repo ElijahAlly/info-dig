@@ -2,6 +2,8 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
   </div>
+  <!-- * Icons8 link for icon use // TODO: Put in footer -->
+  <a target="_blank" href="https://icons8.com/icon/43524/copy">Copy</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 </template>
 
 <script lang="ts">
