@@ -1,6 +1,7 @@
 [package]
-name = "server"
+name = "info_dig"
 version = "0.1.0"
+authors = ["Elijah Ally <elijah.ally@solrblu.com>"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

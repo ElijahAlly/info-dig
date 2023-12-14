@@ -1,9 +1,19 @@
 <template>
     <div class="statement-detail">
-        <h1>Statement Detail</h1>
-        <div>
-            <button @click="openCreateModal">Create New Statement</button>
-            <CreateStatementModal ref="createModal" />
+        <div v-if="statement" class="header">
+            <div class="copy-btn-cont">
+                <img 
+                src="@/assets/icons/icons8-copy-16.png"
+                class="copy-btn"
+                @click="copyTitleToClipboard"
+                >
+            </div>
+            <h1 class="title">
+                {{ statement.content }}
+            </h1>
+        </div>
+        <div class="actions">
+            <CreateStatementButton />
         </div>
         <div v-if="statement">
             <p>Statement ID: {{ statement.statement_id }}</p>
@@ -25,7 +35,7 @@
 import { defineComponent } from 'vue';
 import { fetchAllStatements, fetchStatementById } from '@/api-utils/statementsApi'
 import { StatementType } from '@/interfaces/statements';
-import CreateStatementModal from '@/components/Statements/CreateStatementModal.vue';
+import CreateStatementButton from '@/components/Statements/CreateStatementButton.vue';
 
 export default defineComponent({
     name: 'StatementDetailView',
@@ -57,9 +67,8 @@ export default defineComponent({
                 console.error(`Failed to load statement with slug ${slug}:`, error);
             }
         },
-        openCreateModal() {
-            const modal = this.$refs.createModal as any;
-            modal.openModal();
+        copyTitleToClipboard() {
+            navigator.clipboard.writeText(this.statement?.content || '<Could not copy statement title>');
         }
     },
     data() {
@@ -68,7 +77,7 @@ export default defineComponent({
         };
     },
     components: {
-        CreateStatementModal
+        CreateStatementButton
     },
     watch: {
         '$route'(to, from) {
@@ -79,3 +88,49 @@ export default defineComponent({
     },
 });
 </script>
+
+<style scoped lang="scss">
+.statement-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        .copy-btn-cont {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+
+            .copy-btn {
+                height: 16px;
+                cursor: pointer;
+                
+                &:hover {
+                    height: 20px;
+                }
+            }
+        }
+
+        .copy-btn-cont:hover {
+            margin-left: 13px;
+            margin-right: 13px;
+        }
+
+        .title {
+            max-width: 51%;
+        }
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+        width: fit-content;
+    }
+}
+</style>
