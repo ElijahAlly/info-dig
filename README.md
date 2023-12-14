@@ -1,15 +1,26 @@
-# [info-dig.com](https://info-dig.com)
+<img width="300" height="300" alt="info-dig-logo-screenshot" src="https://github.com/ElijahAlly/info-dig/assets/75961076/3a160568-d329-4437-a15f-19b5b79d60ad">
+
+# [info-dig.com](https://info-dig.com) 
 
 
-[Purpose](#)
-- [How App Works](#)
-- [The Money Part](#)
+[Our Purpose](#our-purpose)
+- [How info-dig Works](#how-info-dig-works)
+  - [Statements](#statements)
+  - [Proposals](#proposals)
+  - [Campaigns](#campaigns)
+  - [Organizations](#organizations)
+- [The Money Part](#the-money-part)
 
 [For Developers](#for-developers)
-- [Tech Stack](#)
+- [Tech Stack](#tech-stack)
+- [Deployment Process](#deployment-process)
+- [Open Source](#open-source)
+  - [Contributions](#contributions)
+  - [Code Usage In Separate Applications](#code-usage-in-separate-applications)
 
+# 
 
-
+## Our Purpose
 Where can you get the facts your looking for? 
 Tired of institutions being the sole arbitors of truth? 
 
@@ -17,6 +28,8 @@ You're thinking of Wikipedia... well think smaller and think faster and see acti
 Seriously, a fact like "the sky is blue" may be true, depending on where (and when) you are. Context matters. 
 
 What topics do we cover? All of them. All of the words, ideas, and statements that make up the **current** world.
+
+## How info-dig Works
 
 ### Statements
 
@@ -47,6 +60,8 @@ Every campaign is is based on a Proposal.
 Why? The whole goal of a Campaign is to see change in the real world. Essentially, an organization will carry out the proposal it was based on. 
 A campaign must have an actionable plan, with steps, goals, and the real identity (legal name and real email) of the person/people must be publicly available. 
 We require this for the members of an organization because you, the people, will be trusting your hard-earned money donations with the Campaigns you agree with and want to fund. Yes, you heard that right, this is how you can become an armchair lobbyist.
+
+### Organizations
 
 ### The Money Part
 **We are not FDIC insured, upload at your own risk. Never fund your wallet with money you cannot afford to lose!!**
@@ -83,6 +98,8 @@ Current Technology stack:
 Future Technology Stack:
 - ...
 
+### Deployment Process
+
 Current Deployment Technology: 
 - Docker Compose
 - Nginx 
@@ -93,3 +110,8 @@ Future Deployment Technology:
 - AWS Lambda (see if necessary when/after migrating to Kubernetes)
 - Redis (implement as cache mechanism later on)
 
+### Open Source
+
+#### Contributions
+
+#### Code Usage In Separate Applications
