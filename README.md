@@ -4,23 +4,29 @@
 
 
 [Our Purpose](#our-purpose)
-- [How info-dig Works](#how-info-dig-works)
+
+[How info-dig Works](#how-info-dig-works)
   - [Statements](#statements)
   - [Proposals](#proposals)
   - [Campaigns](#campaigns)
   - [Organizations](#organizations)
   - [The Money Part](#the-money-part)
+    - [Wallets](#wallets)
+    - [Contributions](#contributions)
+  - [Research](#research)
 
 [For Developers](#for-developers)
-- [Tech Stack](#tech-stack)
-- [Deployment Process](#deployment-process)
-- [Open Source](#open-source)
-  - [Contributions](#contributions)
-  - [Code Usage In Separate Applications](#code-usage-in-separate-applications)
+  - [Tech Stack](#tech-stack)
+  - [Deployment Process](#deployment-process)
+  - [Open Source](#open-source)
+    - [Contributions](#contributions)
+    - [Code Usage In Separate Applications](#code-usage-in-separate-applications)
 
 # 
 
-## Our Purpose
+<br></br>
+
+# Our Purpose
 Where can you get the facts your looking for? 
 Tired of institutions being the sole arbitors of truth? 
 
@@ -29,9 +35,11 @@ Seriously, a fact like "the sky is blue" may be true, depending on where (and wh
 
 What topics do we cover? All of them. All of the words, ideas, and statements that make up the **current** world.
 
-## How info-dig Works
+<br></br>
 
-### Statements
+# How info-dig Works
+
+## Statements
 
 Our (info-dig's) facts are divded into what we call **Statements**, short lines of text "stating" a fact.
 - Each Statement has 2 ratings (based on the context provided):
@@ -47,12 +55,12 @@ What's a rating?
   - Not True (red)
 
 
-### Proposals
+## Proposals
 
 Each proposal is the foundation for actionable ideas.
 
 
-### Campaigns
+## Campaigns
 **You must be an Organization to create a Campaign**
 
 Every campaign is is based on a Proposal. 
@@ -61,17 +69,26 @@ Why? The whole goal of a Campaign is to see change in the real world. Essentiall
 A campaign must have an actionable plan, with steps, goals, and the real identity (legal name and real email) of the person/people must be publicly available. 
 We require this for the members of an organization because you, the people, will be trusting your hard-earned money donations with the Campaigns you agree with and want to fund. Yes, you heard that right, this is how you can become an armchair lobbyist.
 
-### Organizations
 
-### The Money Part
-**_We are not FDIC insured, upload at your own risk. Never fund your wallet with money you cannot afford to lose!!_**
+## Organizations
+... 
 
+
+## The Money Part
+**_We are not FDIC insured, upload money at your own risk. Never fund your wallet with money you cannot afford to lose!!_**
+
+### Wallets
 Every person gets a wallet upon account creation. Navigate to your wallet to see $0.00 when you first sign up.
+
 - Fund your wallet with a minimum upload of $1
 - Withdraw from your wallet at any time with no penalty or fees. 
 - No, we do not use your funds to trade while they sit in your wallet, they will remain their until you take an action. 
 
 What can you use the money in your wallet for?
+
+<br></br>
+
+### Contributions
 
 Contribute to a Proposal
 - No penalty for withdrawing from a proposal
@@ -81,13 +98,21 @@ Contribute to a Campaign
 (Remember, a Proposal made by any person/organization can be claimed by an Organization, which they add attainable real-life goals to create a Campaign)
 - Once a Proposal is claimed/attributed to a Campiagn, the donations are "fixed" and **can no longer be withdrawn by any person other than the Organization behind the Campaign**.
  
-What are the actions an Organization is expected to take with the money they recieve from you. (The desired action and outcome will be explained in detail for each Campaign)
+Here are the actions an Organization is expected to take with the money they recieve from you: 
+_The exact desired action and outcome will be explained in detail for each Campaign_
+
 - Professional drafting of legislation
 - Public awareness campaigns, legal consultations, etc., depending on the specific needs of the proposal.
 
-## For Developers
 
-### Tech Stack
+## Research
+
+
+<br></br>
+
+# For Developers
+
+## Tech Stack
 
 Current Technology stack:
 - Rust
@@ -96,22 +121,28 @@ Current Technology stack:
 - PostgreSQL
 
 Future Technology Stack:
-- ...
+- No future changes anticipated
 
-### Deployment Process
+
+## Deployment Process
 
 Current Deployment Technology: 
 - Docker Compose
 - Nginx 
 
 Future Deployment Technology:
-- Kompose (Use to migrate from Docker Compose <which only supports one “server?”> and move to Kubernetes Pods)
+- Kompose (Use to migrate from Docker Compose to Kubernetes Pods)
 - Kubernetes Pods (migrate from Docker-Compose later on. The reason is just to have experience with Kompose)
 - AWS Lambda (see if necessary when/after migrating to Kubernetes)
 - Redis (implement as cache mechanism later on)
 
-### Open Source
 
-#### Contributions
+## Open Source
 
-#### Code Usage In Separate Applications
+### Contributions
+...
+
+<br></br>
+
+### Code Usage In Separate Applications
+...
