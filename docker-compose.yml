@@ -1,14 +1,44 @@
 version: '3'
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "80:80" 
+    environment:
+      - DATABASE_URL=postgres://postgres:pgroot31@db:5432/postgres
     depends_on:
       - db
+      - server
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081" # Map the port the Rust server runs on
+    environment:
+      - DATABASE_URL=postgres://postgres:pgroot31@db:5432/postgres
+      - RUST_LOG=info
+    depends_on:
+      - db
+
   db:
     image: postgres
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pgroot31
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
+
+  # Optional: Define volumes for data persistence
+
+  # Optional: Define named volumes for data persistence
+
+    # volumes:
+    #   - ./web-client/app
+    #   - /app/node_modules
