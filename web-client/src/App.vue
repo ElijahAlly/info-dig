@@ -43,7 +43,7 @@ body::before {
   position: absolute;
   top: -50%; right: -50%; // Expand the element beyond the viewport
   bottom: -50%; left: -50%;
-  background: linear-gradient(0deg, transparent 42%, #1080ca28, transparent 58%);
+  background: linear-gradient(0deg, transparent 42%, #06394836, transparent 58%);
   z-index: -1; // Place it behind the content
 
   // Animation
@@ -72,7 +72,7 @@ nav {
   align-items: center;
   justify-content: center;
   height: 10vh;
-  background: linear-gradient(0deg, transparent 51%, #107fca);
+  background: linear-gradient(0deg, transparent 51%, #063948);
 
   .nav-link {
     font-weight: bold;

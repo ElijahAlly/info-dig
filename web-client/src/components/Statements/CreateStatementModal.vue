@@ -104,21 +104,21 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(15, 127, 201, 0.5); /* Darker background color */
-    backdrop-filter: blur(5px); /* Increased blur effect */
+    background-color: #0639484d;
+    backdrop-filter: blur(5px);
     display: flex;
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */
+    align-items: center;
+    justify-content: center;
 
     .modal-content {
         background-color: #fff;
-        margin: auto; /* Removed specific margin */
+        margin: auto;
         padding: 2rem;
-        border: 1px solid #ccc; /* Lighter border */
-        width: 50%; /* Adjusted width */
-        max-width: 600px; /* Max width for larger screens */
-        border-radius: 10px; /* Rounded corners */
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2); /* Added shadow */
+        border: 1px solid #ccc;
+        width: 50%;
+        max-width: 600px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px #0639484d;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -131,22 +131,24 @@ export default defineComponent({
 
             .header {
                 width: 100%;
-                color: #0a5c8a;
+                color: #063948;
                 margin-right: -19px;
             }
 
             .close {
-                color: #333; /* Darker color for close button */
+                color: #06394874;
                 float: right;
                 font-size: 28px;
                 font-weight: bold;
                 cursor: pointer;
                 align-self: flex-start;
+                clip-path: circle();
+                padding: 3px;
             }
             
             .close:hover,
             .close:focus {
-                color: #555; /* Subtle hover effect */
+                color: #063948;
                 text-decoration: none;
             }
         }

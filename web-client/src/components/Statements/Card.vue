@@ -10,23 +10,46 @@
             For "Proven_Truth": "Verified by our team"
             For "In_Question": "Under Our Review"
             For "Not_True": "Discredited by our team" -->
-        <div class="card-component">
+        <div 
+            class="card-component"
+            @mouseover="() => {
+                addHoverClass('Public_Rating');
+                addHoverClass('Our_Rating');
+            }"
+            @mouseout="() => {
+                removeHoverClass('Public_Rating');
+                removeHoverClass('Our_Rating');
+            }"
+        >
             <div class="rating-cont">
                 <div class="rating-label public-rating">
-                    <h5 class="title">Public View</h5>
+                    <h5
+                        class="title"
+                        :style="{ 'text-decoration-color': Styles.publicRatingColor }"
+                        ref="publicRatingElement"
+                    >Public View</h5>
                     <h5 class="value" :style="{ 'color': Styles.publicRatingColor }">
                         {{ statement.public_rating }}
                     </h5>
                 </div>
                 <div class="rating-label our-rating">
-                    <h5 class="title">Our Team View</h5>
-                    <h5 class="value" :style="{ 'color': Styles.ourRatingColor }" >
+                    <h5
+                        class="title"
+                        :style="{ 'text-decoration-color': Styles.ourRatingColor }"
+                        ref="ourRatingElement"
+                    >Our Team View</h5>
+                    <h5 class="value" :style="{ 'color': Styles.ourRatingColor }">
                         {{ statement.our_rating }} 
                     </h5>
                 </div>
             </div>
-            <div class="hero-cont" :style="{ 'background-color': Styles.publicRatingColor }" @click="navigateToDetail">
-                <h3 class="title" :title="statement.content" :style="{ 'text-decoration-style': Styles.decorationStyle }">
+            <div class="hero-cont" :style="{ 'background-color': Styles.publicRatingColor }">
+                <h3 
+                    class="hero-title"
+                    :title="statement.content"
+                    @click="navigateToDetail"
+                    :style="{ 'color': Styles.heroTextColor }"
+                >
                     {{ formatTitle(statement.content) }}
                 </h3>
             </div>
@@ -60,8 +83,17 @@ export default defineComponent({
                 publicRatingColor: 'gray',
                 ourRatingColor: 'gray',
                 secondaryColor: '#063948',
-                decorationStyle: 'solid'
+                heroTextColor: '#063948' // dark blue
             };
+
+            const getHeroTextColor = (rating: string) => {
+                switch (rating) {
+                    case 'Not_True':
+                        return 'white';
+                    default:
+                        return styles.heroTextColor;
+                }
+            }
 
             const getCorrectColor = (rating: string) => {
                 switch (rating) {
@@ -79,6 +111,7 @@ export default defineComponent({
 
             styles.publicRatingColor = getCorrectColor(this.$props.statement.public_rating);
             styles.ourRatingColor = getCorrectColor(this.$props.statement.our_rating);
+            styles.heroTextColor = getHeroTextColor(this.$props.statement.public_rating)
             return styles;
         },
     },
@@ -96,7 +129,31 @@ export default defineComponent({
         },
         navigateToDetail() {
             router.push({ name: 'statement-detail', params: { slug: this.statement.slug } });
-        }
+        },
+        addHoverClass(rating_type: string) {
+            switch (rating_type) {
+                case 'Our_Rating':
+                    const ourRatingElement = this.$refs.ourRatingElement as HTMLElement;
+                    ourRatingElement.classList.add('hovered');
+                    return;
+                case 'Public_Rating':
+                    const publicRatingElement = this.$refs.publicRatingElement as HTMLElement;
+                    publicRatingElement.classList.add('hovered');
+                    return;
+            }
+        },
+        removeHoverClass(rating_type: string) {
+            switch (rating_type) {
+                case 'Our_Rating':
+                    const ourRatingElement = this.$refs.ourRatingElement as HTMLElement;
+                    ourRatingElement.classList.remove('hovered');
+                    return;
+                case 'Public_Rating':
+                    const publicRatingElement = this.$refs.publicRatingElement as HTMLElement;
+                    publicRatingElement.classList.remove('hovered');
+                    return;
+            }
+        },
     }
 })
 </script>
@@ -145,19 +202,31 @@ export default defineComponent({
                 color: white;
                 
                 .title {
-                    font-size: medium;
+                    color: #063948;
+                    display: flex;
+                    font-size: small;
                     font-weight: 500;
                     margin: 0;
                     padding: 0;
+                    text-decoration-line: underline;
+                    text-decoration-style: dashed;
+                    text-underline-offset: 1px;
+                    transition: 0.3s;
+                    line-height: 12px;
                 }
-                
+
                 .value {
                     margin: 0;
+                    margin-top: 3px;
                     padding: 0;
                     font-size: small;
                     font-weight: 400;
-                    text-decoration-line: overline;
-                    text-decoration-style: wavy;
+                }
+
+                .hovered {
+                    color: white;
+                    text-underline-offset: 4px;
+                    text-decoration-style: solid;
                 }
             }
 
@@ -173,16 +242,20 @@ export default defineComponent({
         }
 
         .hero-cont {
-            min-height: 72px;
+            min-height: 60px;
             max-height: 200px;
             width: 24fw;
             padding: 15px;
-            background-color: #107fca;
             transition: 0.3s ease-in-out;
 
-            .title {
+            .hero-title {
+                display: flex;
+                height: fit-content;
+                width: inherit;
                 cursor: pointer;
-                text-decoration-style: dotted;
+                text-decoration-style: dashed;
+                text-underline-offset: 6px;
+                line-height: 30px;
                 font-size: medium;
                 font-weight: 500;
                 

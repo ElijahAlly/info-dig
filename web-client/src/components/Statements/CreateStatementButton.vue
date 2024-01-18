@@ -34,7 +34,7 @@ export default defineComponent({
     .create-statement-btn {
         outline: none;
         text-decoration: none;
-        background: linear-gradient(158deg, #fcb900 30%, #107fca);
+        background: linear-gradient(158deg, #063948 30%, #107fca);
         width: fit-content;
         height: 33px;
         border-width: 0;
@@ -51,7 +51,7 @@ export default defineComponent({
     }
 
     &:hover > .create-statement-btn {
-        background: linear-gradient(148deg, #fcb900 3%, #107fca);
+        background: linear-gradient(148deg, #063948 3%, #107fca);
     }
 }
 </style>

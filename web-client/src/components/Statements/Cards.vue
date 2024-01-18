@@ -24,17 +24,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, watch } from 'vue';
+import { mapState } from 'pinia';
 import { StatementType } from '@/interfaces/statements';
 import Card from '@/components/Statements/Card.vue';
+import { useStatementsStore } from '@/stores/statements';
 
 export default defineComponent({
     name: 'Cards',
     mounted() {
-        this.evenlyDistributeElements(this.$props.cards || []);
+        this.sortStatements();
     },
     methods: {
+        sortStatements() {
+            if (useStatementsStore().orderColumnsByPublicView) {
+                this.distributeByRating(this.statements || []);
+            } else {
+                this.evenlyDistributeElements(this.statements || []);
+            }
+        },
         evenlyDistributeElements(array: StatementType[]) {
+            console.log('evenly distribute:', array);
             const length = array.length;
             const chunkSize = Math.floor(length / 3);
 
@@ -47,24 +57,54 @@ export default defineComponent({
             this.$data.firstChunk = array.slice(0, firstChunkSize);
             this.$data.secondChunk = array.slice(firstChunkSize, firstChunkSize + secondChunkSize);
             this.$data.thirdChunk = array.slice(firstChunkSize + secondChunkSize);
+        },
+        distributeByRating(statements: StatementType[]) {
+            // Group statements by public_rating
+            const groupedByRating: { [rating: string]: StatementType[] } = {};
+            statements.forEach((statement) => {
+                if (!groupedByRating[statement.public_rating]) {
+                    groupedByRating[statement.public_rating] = [];
+                }
+                groupedByRating[statement.public_rating].push(statement);
+            });
+
+            this.$data.firstChunk = groupedByRating['Proven_Truth'];
+            this.$data.secondChunk = groupedByRating['In_Question'];
+            this.$data.thirdChunk = groupedByRating['Not_True'];
+        },
+    },
+    watch: { // ? does this actually do anything
+        statements(newStatements) {
+            this.evenlyDistributeElements(newStatements || []);
+        },
+        orderColumnsByPublicView() {
+            this.sortStatements();
         }
     },
     data() {
         return {
-            firstChunk: null as StatementType[] | null,
-            secondChunk: null as StatementType[] | null,
-            thirdChunk: null as StatementType[] | null,
+            firstChunk: [] as StatementType[] | [],
+            secondChunk: [] as StatementType[] | [],
+            thirdChunk: [] as StatementType[] | [],
+        }
+    },
+    computed: {
+        statements() {
+            return useStatementsStore().getAllStatementsFromState;
+        },
+        orderColumnsByPublicView() {
+            return useStatementsStore().orderColumnsByPublicView;
         }
     },
     components: {
         Card
     },
-    props: {
-        cards: {
-            type: Array as () => StatementType[],
-            default: () => []
-        }
-    },
+    // props: {
+    //     statements: {
+    //         type: Array as () => StatementType[],
+    //         default: () => []
+    //     }
+    // },
 })
 </script>
 
@@ -78,17 +118,44 @@ export default defineComponent({
     display: flex;
     justify-content: space-evenly; 
     margin-top: 3vh;
-    overflow-y: scroll;
+    overflow: hidden;
     max-height: 81vh;
     width: 90vw;
 
     .cards-column-1 {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        // box-shadow: 0px 9px 3px -4px inset #063948;
+        padding: 0 3px 99px 3px;
+        border-radius: 6px;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
     
     .cards-column-2 {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        // box-shadow: 0px 9px 3px -4px inset #063948;
+        padding: 0 3px 99px 3px;
+        border-radius: 6px;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
     
     .cards-column-3 {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        // box-shadow: 0px 9px 3px -4px inset #063948;
+        padding: 0 3px 99px 3px;
+        border-radius: 6px;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 
     @media (max-width: 700px) {
