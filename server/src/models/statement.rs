@@ -1,7 +1,6 @@
 use chrono::NaiveDateTime;
 use serde::{Serialize, Deserialize};
 use crate::schema::statements;
-use crate::models::enums::RatingType;
 
 #[derive(Queryable, Serialize, Deserialize, Debug, Clone)]
 pub struct Statement {
@@ -12,8 +11,8 @@ pub struct Statement {
     pub context: Option<String>,
     pub public_rating: Option<String>,
     pub our_rating: Option<String>,
-    pub created_at: NaiveDateTime,
-    pub updated_at: NaiveDateTime,
+    pub created_at: Option<NaiveDateTime>,
+    pub updated_at: Option<NaiveDateTime>,
 }
 
 #[derive(Insertable, Serialize, Deserialize, Debug, Clone)]
@@ -30,9 +29,9 @@ pub struct NewStatement {
 #[derive(AsChangeset, Deserialize, Debug, Clone)]
 #[table_name = "statements"]
 pub struct UpdateStatement {
-    pub content: Option<String>,
     pub slug: Option<String>, // FIX: The slug will also need to be updated
+    pub content: Option<String>,
     pub context: Option<String>,
-    pub public_rating: Option<RatingType>, // FIX: not working 
-    pub our_rating: Option<RatingType>, // FIX: not working
+    pub public_rating: Option<String>, // FIX: not working 
+    pub our_rating: Option<String>, // FIX: not working
 }

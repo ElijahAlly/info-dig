@@ -1,10 +1,6 @@
-// // @generated automatically by Diesel CLI.
-// * Manually copied schema to save last working schema file
-// ! UPDATE before running migrations that will auto-generate schema.rs file
+// @generated automatically by Diesel CLI.
 
 diesel::table! {
-    use diesel::sql_types::*;
-
     campaigns (campaign_id) {
         campaign_id -> Int4,
         organization_id -> Int4,
@@ -33,34 +29,31 @@ diesel::table! {
 }
 
 diesel::table! {
-    use diesel::sql_types::*;
-
     proposals (proposal_id) {
         proposal_id -> Int4,
         user_id -> Int4,
+        slug -> Varchar,
         title -> Text,
         description -> Text,
-        status -> Text,
+        status -> Nullable<Text>,
         yeas -> Int4,
         nays -> Int4,
-        created_at -> Timestamp,
-        updated_at -> Timestamp,
+        created_at -> Nullable<Timestamp>,
+        updated_at -> Nullable<Timestamp>,
     }
 }
 
 diesel::table! {
-    use diesel::sql_types::*;
-
     statements (statement_id) {
         statement_id -> Int4,
         user_id -> Int4,
-        slug -> Text,
+        slug -> Varchar,
         content -> Text,
         context -> Nullable<Text>,
         public_rating -> Nullable<Text>,
         our_rating -> Nullable<Text>,
-        created_at -> Timestamp,
-        updated_at -> Timestamp,
+        created_at -> Nullable<Timestamp>,
+        updated_at -> Nullable<Timestamp>,
     }
 }
 

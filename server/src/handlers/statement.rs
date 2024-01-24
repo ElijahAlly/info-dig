@@ -3,11 +3,12 @@ use diesel::prelude::*;
 use diesel::pg::PgConnection;
 use diesel::result::QueryResult;
 use crate::schema::statements::dsl::*;
+// use crate::schema::statements::columns::*;
+use crate::schema::statements::slug;
 use crate::models::{Statement, NewStatement, UpdateStatement};
 use crate::DbPool;
 use log::{info, error};
 use serde::{Serialize, Deserialize};
-// use diesel::sql_types::{Nullable, Text};
 
 // * GET all statements
 pub async fn get_statements_handler(db_pool: web::Data<DbPool>) -> impl Responder {
@@ -31,14 +32,13 @@ pub fn get_statements_query(conn: &PgConnection) -> QueryResult<Vec<Statement>> 
 }
 
 // * GET one statement by content
-// Define path parameters
 pub async fn get_statement_handler(
     db_pool: web::Data<DbPool>,
     path: web::Path<String>,
 ) -> impl Responder {
     let conn = db_pool.get().expect("Failed to get DB connection");
     let stmt_slug = path.into_inner();
-    println!("{}", stmt_slug);
+    // println!("{}", stmt_slug);
     info!("Attempting to fetch statement by slug");
     match get_statement_query(&conn, &stmt_slug) {
         Ok(statement) => {
@@ -57,10 +57,6 @@ pub fn get_statement_query(conn: &PgConnection, stmt_slug: &str) -> QueryResult<
 }
 
 // * POST create statment
-#[derive(Serialize, Deserialize)]
-pub struct StatementPath {
-    statement_id: i32,
-}
 
 pub async fn create_statement_handler(
     db_pool: web::Data<DbPool>,
@@ -86,10 +82,16 @@ pub async fn create_statement_handler(
 pub fn create_statement_query(conn: &PgConnection, new_stmt: NewStatement) -> QueryResult<Statement> {
     diesel::insert_into(statements)
         .values(&new_stmt)
-        .get_result(conn)
+        .get_result::<Statement>(conn)
 }
 
 // * DELETE statements by id
+
+#[derive(Serialize, Deserialize)]
+pub struct StatementPath {
+    statement_id: i32,
+}
+
 pub async fn delete_statement_handler(
     db_pool: web::Data<DbPool>,
     path: web::Path<StatementPath>,

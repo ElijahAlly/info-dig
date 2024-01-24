@@ -10,4 +10,15 @@ pub use statement::{
     update_statement_handler
 };
 
+// Declare the proposal module
+pub mod proposal;
+
+pub use proposal::{
+    get_proposals_handler,
+    get_proposal_handler,
+    create_proposal_handler,
+    delete_proposal_handler,
+    update_proposal_handler
+};
+
 // ... other handler modules

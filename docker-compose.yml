@@ -35,10 +35,7 @@ services:
 volumes:
   postgres_data:
 
-  # Optional: Define volumes for data persistence
-
-  # Optional: Define named volumes for data persistence
-
-    # volumes:
-    #   - ./web-client/app
-    #   - /app/node_modules
+  # Optional: Define named volumes for data persistence # * Do this when in production (but test in dev first)
+# volumes:
+#   - ./web-client/app
+#   - /app/node_modules

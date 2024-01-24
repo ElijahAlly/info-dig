@@ -15,6 +15,9 @@ mod handlers;
 mod models;
 mod utils;
 
+extern crate time;
+extern crate language_tags;
+
 type DbPool = r2d2::Pool<ConnectionManager<PgConnection>>;
 
 // The main function, the entry point of the application
@@ -50,8 +53,13 @@ async fn main() -> Result<(), Box<(dyn StdError + 'static)>> {
             .route("/statements", web::post().to(handlers::statement::create_statement_handler))
             .route("/statements/{statement_id}", web::delete().to(handlers::statement::delete_statement_handler))
             .route("/statements/{statement_id}", web::put().to(handlers::statement::update_statement_handler))
-            // * campaigns
             // * proposals
+            .route("/proposals", web::get().to(handlers::proposal::get_proposals_handler))
+            .route("/proposals/{slug}", web::get().to(handlers::proposal::get_proposal_handler))
+            .route("/proposals", web::post().to(handlers::proposal::create_proposal_handler))
+            .route("/proposals/{proposal_id}", web::delete().to(handlers::proposal::delete_proposal_handler))
+            .route("/proposals/{proposal_id}", web::put().to(handlers::proposal::update_proposal_handler))
+            // * campaigns
             // * organizations
             // * users
     })
