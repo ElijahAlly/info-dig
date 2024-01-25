@@ -16,3 +16,8 @@ export interface NewStatementType {
     content: string;
     context: string;
 }
+
+export interface LinkType {
+    url: string;
+    name: string;
+}

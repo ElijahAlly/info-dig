@@ -3,7 +3,6 @@ use diesel::prelude::*;
 use diesel::pg::PgConnection;
 use diesel::result::QueryResult;
 use crate::schema::statements::dsl::*;
-// use crate::schema::statements::columns::*;
 use crate::schema::statements::slug;
 use crate::models::{Statement, NewStatement, UpdateStatement};
 use crate::DbPool;

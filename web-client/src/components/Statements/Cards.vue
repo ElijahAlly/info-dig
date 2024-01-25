@@ -24,27 +24,64 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue';
-import { mapState } from 'pinia';
+import { defineComponent } from 'vue';
 import { StatementType } from '@/interfaces/statements';
 import Card from '@/components/Statements/Card.vue';
 import { useStatementsStore } from '@/stores/statements';
+import { fetchAllStatements } from '@/api-utils/statementsApi';
 
 export default defineComponent({
     name: 'Cards',
+    watch: {
+        statements(newValue, oldValue) {
+            console.log('newValue', newValue);
+            console.log('oldValue', oldValue);
+            console.log('sorting statements on update');
+            this.sortStatements();
+        },
+        sortColumnsByPublicView(newValue, oldValue) {
+            this.sortStatements();
+        },
+        sortColumnsByOurTeamView(newValue, oldValue) {
+            this.sortStatements();
+        },
+    },
     mounted() {
-        this.sortStatements();
+        // * TODO: Get recommended (recent, In_Question mostly)
+        this.loadAllStatements();
     },
     methods: {
+        async loadAllStatements() {
+            try {
+                const statements: StatementType[] = await fetchAllStatements();
+                // console.log('fetched statements', statements);
+                useStatementsStore().$patch((state) => {
+                    // console.log('exsiting state', state);
+                    const statementIds = new Set(state.statements.map(s => s.statement_id));
+                    statements.forEach((newStatement) => {
+                        if (!statementIds.has(newStatement.statement_id)) {
+                            state.statements.push(newStatement);
+                        }
+                    });
+                })
+                this.sortStatements();
+
+                // console.log('statements updated', useStatementsStore().statements);
+            } catch (error) {
+                console.error('Failed to load statements:', error);
+            }
+        },
         sortStatements() {
-            if (useStatementsStore().orderColumnsByPublicView) {
-                this.distributeByRating(this.statements || []);
+            if (this.sortColumnsByPublicView) {
+                this.distributeByRating(this.statements || [], 'public_rating');
+            } else if (this.sortColumnsByOurTeamView) {
+                this.distributeByRating(this.statements || [], 'our_rating');
             } else {
                 this.evenlyDistributeElements(this.statements || []);
             }
         },
         evenlyDistributeElements(array: StatementType[]) {
-            console.log('evenly distribute:', array);
+            console.log('evenly distribute statements');
             const length = array.length;
             const chunkSize = Math.floor(length / 3);
 
@@ -58,14 +95,18 @@ export default defineComponent({
             this.$data.secondChunk = array.slice(firstChunkSize, firstChunkSize + secondChunkSize);
             this.$data.thirdChunk = array.slice(firstChunkSize + secondChunkSize);
         },
-        distributeByRating(statements: StatementType[]) {
-            // Group statements by public_rating
+        distributeByRating(statements: StatementType[], ratingType: keyof StatementType) {
+            console.log('distribute by rating:', ratingType); 
+            // Group statements by ratingType => public_rating or our_rating
             const groupedByRating: { [rating: string]: StatementType[] } = {};
             statements.forEach((statement) => {
-                if (!groupedByRating[statement.public_rating]) {
-                    groupedByRating[statement.public_rating] = [];
+                if (ratingType === 'public_rating' || ratingType === 'our_rating') {
+                    const ratingValue = statement[ratingType];
+                    if (!groupedByRating[ratingValue]) {
+                        groupedByRating[ratingValue] = [];
+                    }
+                    groupedByRating[ratingValue].push(statement);
                 }
-                groupedByRating[statement.public_rating].push(statement);
             });
 
             this.$data.firstChunk = groupedByRating['Proven_Truth'];
@@ -73,16 +114,9 @@ export default defineComponent({
             this.$data.thirdChunk = groupedByRating['Not_True'];
         },
     },
-    watch: { // ? does this actually do anything
-        statements(newStatements) {
-            this.evenlyDistributeElements(newStatements || []);
-        },
-        orderColumnsByPublicView() {
-            this.sortStatements();
-        }
-    },
     data() {
         return {
+            componentKey: 0,
             firstChunk: [] as StatementType[] | [],
             secondChunk: [] as StatementType[] | [],
             thirdChunk: [] as StatementType[] | [],
@@ -92,8 +126,11 @@ export default defineComponent({
         statements() {
             return useStatementsStore().getAllStatementsFromState;
         },
-        orderColumnsByPublicView() {
-            return useStatementsStore().orderColumnsByPublicView;
+        sortColumnsByPublicView() {
+            return useStatementsStore().sortColumnsByPublicView;
+        },
+        sortColumnsByOurTeamView() {
+            return useStatementsStore().sortColumnsByOurTeamView;
         }
     },
     components: {

@@ -14,20 +14,13 @@
                     <label for="statementContext" class="input-label">Context:</label>
                     <textarea id="statementContext" v-model="createStatementModal.context" required class="textarea-field"></textarea>
                 </div>
-                <!-- <div class="links-group">
-                    <div class="links-cont">
-                        <label for="statementContext" class="input-label">Link 1:</label>
-                        <input id="statementContent" class="input-field" v-model="createStatementModal.links" required />
-                    </div>
-                    <img class="add-link-btn" src="@/assets/icons/icons8-add-50.png" @click="addLinkInput" alt="add-icon"/>
-                </div> -->
                 <div class="links-group">
                     <div class="links-cont" v-for="(link, index) in createStatementModal.links" :key="index">
-                    <label :for="'statementContent' + index" class="input-label">Link {{ index + 1 }}:</label>
-                    <div class="link-input-cont">
-                        <input :id="'statementContent' + index" class="input-field" v-model="link.value" required />
-                        <img v-if="index !== 0" class="remove-link-btn" src="@/assets/icons/icons8-remove-30.png" @click="() => removeLinkInput(index)" alt="remove-input-icon"/> 
-                    </div>
+                        <label :for="'statementContent' + index" class="input-label">Link {{ index + 1 }}:</label>
+                        <div class="link-input-cont">
+                            <input :id="'statementContent' + index" class="input-field" v-model="link.value" required />
+                            <img v-if="index !== 0" class="remove-link-btn" src="@/assets/icons/icons8-remove-30.png" @click="() => removeLinkInput(index)" alt="remove-input-icon"/> 
+                        </div>
                     </div>
                     <img class="add-link-btn" src="@/assets/icons/icons8-add-50.png" @click="addLinkInput" alt="add-icon"/>
                 </div>

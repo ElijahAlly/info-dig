@@ -54,6 +54,7 @@ diesel::table! {
         our_rating -> Nullable<Text>,
         created_at -> Nullable<Timestamp>,
         updated_at -> Nullable<Timestamp>,
+        links -> Nullable<Jsonb>,
     }
 }
 

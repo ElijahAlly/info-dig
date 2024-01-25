@@ -13,7 +13,6 @@
             </h1>
         </div>
         <div class="actions">
-            <CreateStatementButton />
         </div>
         <div v-if="statement">
             <p>Statement ID: {{ statement.statement_id }}</p>
@@ -35,7 +34,6 @@
 import { defineComponent } from 'vue';
 import { fetchAllStatements, fetchStatementById } from '@/api-utils/statementsApi'
 import { StatementType } from '@/interfaces/statements';
-import CreateStatementButton from '@/components/Statements/CreateStatementButton.vue';
 
 export default defineComponent({
     name: 'StatementDetailView',
@@ -76,9 +74,8 @@ export default defineComponent({
             statement: null as StatementType | null, // This will hold the fetched statement data
         };
     },
-    components: {
-        CreateStatementButton
-    },
+    // components: {
+    // },
     watch: {
         '$route'(to, from) {
             if (to.params.id !== from.params.id) {

@@ -2,12 +2,28 @@
     <div class="page-cont">
         <div class="page-header">
             <div class="actions">
-                <CreateStatementButton />
-                <div class="order-by-public-view-wrapper">
-                    <button @click="toggleOrderByPublicView" class="order-by-public-view">
-                        Order By Public View
-                    </button>
-                </div>
+                <GradientButton 
+                    :text="'Create New Statement'"
+                    :actionOnClick="openCreateModal"
+                />
+                <GradientButton 
+                    :text="'Sort By Public View'" 
+                    :actionOnClick="sortStatementsByPublicView"
+                    :colorsInnerInitial="'#17bef1 30%, #f1b81b 60%, #f01a53'"
+                    :colorsInnerHover="'#17bef1 21%, #f1b81b 51%, #f01a53'"
+                    :colorsWrapper="'transparent 66%, gray'"
+                    :initialAngle="'158deg'"
+                    :hoverAngle="'99deg'"
+                />
+                <GradientButton 
+                    :text="'Sort By Our Team View'" 
+                    :actionOnClick="sortStatementsByOurTeamView"
+                    :colorsInnerInitial="'#278eae 30%, #ad8a27 60%, #a92649'"
+                    :colorsInnerHover="'#278eae 21%, #ad8a27 51%, #a92649'"
+                    :colorsWrapper="'transparent 66%, rgb(46, 46, 46)'"
+                    :initialAngle="'158deg'"
+                    :hoverAngle="'99deg'"
+                />
             </div>
         </div>
         <div class="statements">
@@ -18,60 +34,46 @@
             -->
             <Cards />
         </div>
-        <!-- <div v-else>
-            <p>Loading statements...</p>
-        </div> -->
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { fetchAllStatements } from '@/api-utils/statementsApi'
 import CreateStatementModal from '@/components/Statements/CreateStatementModal.vue';
-import CreateStatementButton from '@/components/Statements/CreateStatementButton.vue';
 import Cards from "@/components/Statements/Cards.vue";
-import { mapState } from 'pinia';
 import { useStatementsStore } from '@/stores/statements';
-import { StatementType } from '@/interfaces/statements';
+import GradientButton from '@/components/GradientButton.vue';
+import { useModalsStore } from '@/stores/modals';
 
 export default defineComponent({
-    name: 'StatementDetailView',
-    mounted() {
-        // * TODO: Get recommended (recent, In_Question mostly) 
-        this.loadAllStatements();
-    },
+    name: 'StatementsView',
     methods: {
-        // For fetching all statements
-        async loadAllStatements() {
-            try {
-                const statements: StatementType[] = await fetchAllStatements();
-                console.log('fetched statements', statements);
-                useStatementsStore().$patch((state) => {
-                    console.log('exsiting state', state);
-                    const statementIds = new Set(state.statements.map(s => s.statement_id));
-                    statements.forEach((newStatement) => {
-                        if (!statementIds.has(newStatement.statement_id)) {
-                            state.statements.push(newStatement);
-                        }
-                    });
-                })
-                console.log('statements updated', useStatementsStore().statements);
-            } catch (error) {
-                console.error('Failed to load statements:', error);
+        openCreateModal() {
+            useModalsStore().showCreateStatements();
+        },
+        sortStatementsByPublicView() {
+            if (useStatementsStore().sortColumnsByPublicView) {
+                console.log('make sortColumnsByPublicView false');
+                useStatementsStore().$patch({
+                    sortColumnsByPublicView: false,
+                }) 
+            } else {
+                console.log('make sortColumnsByPublicView true');
+                useStatementsStore().$patch({
+                    sortColumnsByOurTeamView: false,
+                    sortColumnsByPublicView: true,
+                }) 
             }
         },
-        openCreateModal() {
-            const modal = this.$refs.createModal as any;
-            modal.openModal();
-        },
-        toggleOrderByPublicView() {
-            if (useStatementsStore().orderColumnsByPublicView) {
+        sortStatementsByOurTeamView() {
+            if (useStatementsStore().sortColumnsByOurTeamView) {
                 useStatementsStore().$patch({
-                    orderColumnsByPublicView: false,
+                    sortColumnsByOurTeamView: false,
                 }) 
             } else {
                 useStatementsStore().$patch({
-                    orderColumnsByPublicView: true,
+                    sortColumnsByPublicView: false,
+                    sortColumnsByOurTeamView: true,
                 }) 
             }
         }
@@ -79,7 +81,7 @@ export default defineComponent({
     components: {
         Cards,
         CreateStatementModal,
-        CreateStatementButton
+        GradientButton
     },
 });
 </script>
@@ -99,51 +101,11 @@ export default defineComponent({
         align-items: center;
         justify-content: space-evenly;
         padding: 20px 0;
-        
-        .page-title {
-            margin: 0;
-            padding: 0;
-        }
 
         .actions {
             display: flex;
             justify-content: space-evenly;
             width: 100%;
-
-            .order-by-public-view-wrapper {
-                background: linear-gradient(158deg, transparent 66%, gray);
-                width: fit-content;
-                height: fit-content;
-                border-radius: 6px;
-                margin: 0;
-                padding: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                
-                .order-by-public-view {
-                    outline: none;
-                    text-decoration: none;
-                    background: linear-gradient(158deg, #37c4ef 30%, #efbe37 60%, #ef3768);
-                    width: fit-content;
-                    height: 33px;
-                    border-width: 0;
-                    border-radius: 6px;
-                    color: white;
-                    cursor: pointer;
-                    font-size: small;
-                    font-weight: bold;
-                    padding: 6px;
-                }
-                
-                &:hover {
-                    rotate: -12deg 21 3 1;
-                }
-                
-                &:hover > .order-by-public-view {
-                    background: linear-gradient(99deg, #37c4ef 21%, #efbe37 51%, #ef3768);
-                }
-            }
         }
     }
     

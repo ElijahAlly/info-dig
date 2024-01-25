@@ -1,4 +1,5 @@
 use chrono::NaiveDateTime;
+use serde_json::Value as JsonValue;
 use serde::{Serialize, Deserialize};
 use crate::schema::statements;
 
@@ -13,6 +14,7 @@ pub struct Statement {
     pub our_rating: Option<String>,
     pub created_at: Option<NaiveDateTime>,
     pub updated_at: Option<NaiveDateTime>,
+    pub links: Option<JsonValue>,
 }
 
 #[derive(Insertable, Serialize, Deserialize, Debug, Clone)]
@@ -24,6 +26,7 @@ pub struct NewStatement {
     pub context: Option<String>,
     pub public_rating: Option<String>,
     pub our_rating: Option<String>,
+    pub links: Option<JsonValue>,
 }
 
 #[derive(AsChangeset, Deserialize, Debug, Clone)]
@@ -34,4 +37,5 @@ pub struct UpdateStatement {
     pub context: Option<String>,
     pub public_rating: Option<String>, // FIX: not working 
     pub our_rating: Option<String>, // FIX: not working
+    pub links: Option<JsonValue>, 
 }
