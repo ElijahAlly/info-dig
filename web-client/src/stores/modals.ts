@@ -6,7 +6,7 @@ export const useModalsStore = defineStore('modals', {
             isVisible: false,
             content: '',
             context: '',
-            links: [{ value: '' }]
+            links: [{ url: '', name: '' }]
         }
     }),
     getters: {
@@ -23,7 +23,7 @@ export const useModalsStore = defineStore('modals', {
         },
         addLink() {
             console.log('addLink', this.createStatements.links);
-            this.createStatements.links.push({ value: '' })
+            this.createStatements.links.push({ url: '', name: '' })
             console.log('addLink', this.createStatements.links);
         },
         removeLink(index: number) {

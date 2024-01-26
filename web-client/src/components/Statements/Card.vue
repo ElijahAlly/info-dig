@@ -16,7 +16,7 @@
                 addHoverClass('Public_Rating');
                 addHoverClass('Our_Rating');
             }"
-            @mouseout="() => {
+            @mouseleave="() => {
                 removeHoverClass('Public_Rating');
                 removeHoverClass('Our_Rating');
             }"
@@ -43,7 +43,14 @@
                     </h5>
                 </div>
             </div>
-            <div class="hero-cont" :style="{ 'background-color': Styles.publicRatingColor }">
+            <div 
+                class="hero-cont" 
+                :style="{
+                    backgroundColor: Styles.publicRatingColor,
+                    borderBottomRightRadius: statement.links.length ? '0' : '3px',
+                    borderBottomLeftRadius: statement.links.length ? '0' : '3px' 
+                }"
+            >
                 <h3 
                     class="hero-title"
                     :title="statement.content"
@@ -56,7 +63,7 @@
             <div class="card-body">
                 <p>{{ formatContext(statement.context) }}</p>
             </div>
-            <!-- <Links v-for="(statement, i) in firstChunk" :key="i" :statement="statement" /> -->
+            <Links :links="statement.links" :publicRatingColor="Styles.publicRatingColor" />
         </div>
     </div>
     <p v-else>
@@ -68,6 +75,7 @@
 import { defineComponent } from 'vue';
 import { StatementType } from '@/interfaces/statements';
 import router from '@/router';
+import Links from './Links.vue';
 
 export default defineComponent({
     name: 'Card',
@@ -85,7 +93,6 @@ export default defineComponent({
                 secondaryColor: '#063948',
                 heroTextColor: '#063948' // dark blue
             };
-
             const getHeroTextColor = (rating: string) => {
                 switch (rating) {
                     case 'Not_True':
@@ -93,12 +100,11 @@ export default defineComponent({
                     default:
                         return styles.heroTextColor;
                 }
-            }
-
+            };
             const getCorrectColor = (rating: string) => {
                 switch (rating) {
                     case 'Proven_Truth':
-                        return 'rgb(55, 196, 239)'; 
+                        return 'rgb(55, 196, 239)';
                     case 'In_Question':
                         return 'rgb(239, 190, 55)';
                     case 'Not_True':
@@ -107,24 +113,25 @@ export default defineComponent({
                         console.log('rating', rating);
                         return 'gray';
                 }
-            }
-
+            };
             styles.publicRatingColor = getCorrectColor(this.$props.statement.public_rating);
             styles.ourRatingColor = getCorrectColor(this.$props.statement.our_rating);
-            styles.heroTextColor = getHeroTextColor(this.$props.statement.public_rating)
+            styles.heroTextColor = getHeroTextColor(this.$props.statement.public_rating);
             return styles;
         },
     },
     methods: {
         formatTitle(title: string) {
             const maxTitleLength = 81;
-            if (title.length < maxTitleLength) return title;
+            if (title.length < maxTitleLength)
+                return title;
             return title.slice(0, maxTitleLength) + '...';
         },
         // Keep as separate funcs because in future, context will need additional formatting
         formatContext(context: string) {
             const maxTitleLength = 150;
-            if (context.length < maxTitleLength) return context;
+            if (context.length < maxTitleLength)
+                return context;
             return context.slice(0, maxTitleLength) + '...';
         },
         navigateToDetail() {
@@ -154,7 +161,8 @@ export default defineComponent({
                     return;
             }
         },
-    }
+    },
+    components: { Links }
 })
 </script>
 
@@ -174,7 +182,6 @@ export default defineComponent({
         min-width: 180px;
         min-height: 100px;
         height: fit-content;
-        max-height: 420px;
         margin-bottom: 24px;
         display: flex;
         flex-direction: column;
@@ -266,6 +273,8 @@ export default defineComponent({
         }
 
         .card-body {
+            display: none; // temporary, unhide later
+            max-height: 42px;
             padding: 9px;
         }
     }

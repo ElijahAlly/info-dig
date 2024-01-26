@@ -8,6 +8,7 @@ export interface StatementType {
     our_rating: string;
     created_at: string;
     updated_at: string;
+    links: LinkType[];
 }
 
 export interface NewStatementType {
@@ -15,6 +16,7 @@ export interface NewStatementType {
     slug: string;
     content: string;
     context: string;
+    links?: LinkType[];
 }
 
 export interface LinkType {

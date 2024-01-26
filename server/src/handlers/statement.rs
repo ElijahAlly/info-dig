@@ -156,24 +156,3 @@ pub fn update_statement_query(
         .set(&changeset)
         .get_result::<Statement>(conn)
 }
-
-// pub fn update_statement_query<ST2>(
-//     conn: &PgConnection,
-//     stmt_id: i32,
-//     data: &UpdateStatement,
-// ) -> QueryResult<()> {
-//     let public_rating_str = data.public_rating.as_ref().map(|r| r.to_string());
-//     let our_rating_str = data.our_rating.as_ref().map(|r| r.to_string());
-//     let content_str = data.content.as_ref().map(|s| s.as_str());
-//     let context_str = data.context.as_ref().map(|s| s.as_str());
-
-//     diesel::sql_query("UPDATE statements SET public_rating = $1, our_rating = $2, content = $3, context = $4 WHERE statement_id = $5")
-//         .bind::<Nullable<Text>, _>(public_rating_str)
-//         .bind::<Nullable<Text>, _>(our_rating_str)
-//         .bind::<Nullable<Text>, _>(content_str)
-//         .bind::<Nullable<Text>, _>(context_str)
-//         .bind::<ST2, i32>(stmt_id)
-//         .execute(conn)?;
-
-//     Ok(())
-// }

@@ -16,9 +16,10 @@
                 </div>
                 <div class="links-group">
                     <div class="links-cont" v-for="(link, index) in createStatementModal.links" :key="index">
-                        <label :for="'statementContent' + index" class="input-label">Link {{ index + 1 }}:</label>
+                        <label :for="'statementLinkUrl' + index" class="input-label">Link {{ index + 1 }}:</label>
                         <div class="link-input-cont">
-                            <input :id="'statementContent' + index" class="input-field" v-model="link.value" required />
+                            <input :id="'statementLinkUrl' + index" class="input-field link-field" v-model="link.url" placeholder="URL" required />
+                            <input :id="'statementLinkName' + index" class="input-field link-field" v-model="link.name" placeholder="Short Name Alternative" required />
                             <img v-if="index !== 0" class="remove-link-btn" src="@/assets/icons/icons8-remove-30.png" @click="() => removeLinkInput(index)" alt="remove-input-icon"/> 
                         </div>
                     </div>
@@ -60,6 +61,7 @@ export default defineComponent({
                     slug: formatContentToSlug(this.createStatementModal.content),
                     context: this.createStatementModal.context,
                     user_id: this.user_id, // * TODO: Replace with logged in user id
+                    links: this.createStatementModal.links
                 };
                 await createStatement(statementData);
                 this.closeModal();
@@ -80,7 +82,7 @@ export default defineComponent({
                 isVisible: false,
                 content: '',
                 context: '',
-                links: [{ value: '' }]
+                links: [{ url: '', name: '' }]
             },
             user_id: 1,
         }
@@ -147,18 +149,26 @@ export default defineComponent({
         }
 
         .form-cont {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100%;
 
             .form-group {
                 display: flex;
                 flex-direction: column;
+                align-items: center;
                 margin-bottom: 1rem;
+                width: 100%;
+                height: 100%;
                
-                .input-label {
+                /* .input-label {
 
-                }
+                } */
 
                 .input-field {
-                    width: 100%;
+                    width: 60%;
                     padding: 0.5rem;
                     margin-top: 0.5rem;
                     border: 1px solid #ccc;
@@ -166,9 +176,9 @@ export default defineComponent({
                 }
                 
                 .textarea-field {
-                    width: 100%;
+                    min-width: 60%;
+                    width: 60%;
                     max-width: 100%;
-                    min-width: 100%;
                     max-height: 240px;
                     padding: 0.5rem;
                     margin-top: 0.5rem;
@@ -178,19 +188,30 @@ export default defineComponent({
             }
 
             .links-group {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                margin-bottom: 1rem;
+
                 .links-cont {
+                    width: 60%;
                 
                     .inputlabel {
                         /* justify-self: flex-start; */
                     }
 
                     .link-input-cont {
+                        width: 100%;
                         display: flex;
                         align-items: center;
+                        justify-content: space-between;
+
                         .input-field {
-                            width: 100%;
+                            width: 45%;
                             padding: 0.5rem;
                             margin-top: 0.5rem;
+                            margin-right: 0.5rem;
                             border: 1px solid #ccc;
                             border-radius: 5px;
                         }
