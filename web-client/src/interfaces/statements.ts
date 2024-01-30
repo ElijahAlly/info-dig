@@ -19,6 +19,17 @@ export interface NewStatementType {
     links?: LinkType[];
 }
 
+export interface UpdateStatementType {
+    statement_id: number;
+    slug?: string;
+    content?: string;
+    context?: string;
+    public_rating?: string;
+    our_rating?: string;
+    updated_at?: string;
+    links?: LinkType[];
+}
+
 export interface LinkType {
     url: string;
     name: string;

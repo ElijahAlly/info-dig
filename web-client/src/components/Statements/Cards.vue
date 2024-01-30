@@ -40,9 +40,13 @@ export default defineComponent({
             this.sortStatements();
         },
         sortColumnsByPublicView(newValue, oldValue) {
+            console.log('newValue', newValue);
+            console.log('oldValue', oldValue);
             this.sortStatements();
         },
         sortColumnsByOurTeamView(newValue, oldValue) {
+            console.log('newValue', newValue);
+            console.log('oldValue', oldValue);
             this.sortStatements();
         },
     },
@@ -124,7 +128,7 @@ export default defineComponent({
     },
     computed: {
         statements() {
-            return useStatementsStore().getAllStatementsFromState;
+            return useStatementsStore().getAllStatements;
         },
         sortColumnsByPublicView() {
             return useStatementsStore().sortColumnsByPublicView;

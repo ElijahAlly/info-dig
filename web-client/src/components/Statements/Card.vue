@@ -10,7 +10,7 @@
             For "Proven_Truth": "Verified by our team"
             For "In_Question": "Under Our Review"
             For "Not_True": "Discredited by our team" -->
-        <div 
+        <div
             class="card-component"
             @mouseover="() => {
                 addHoverClass('Public_Rating');
@@ -25,20 +25,20 @@
                 <div class="rating-label public-rating">
                     <h5
                         class="title"
-                        :style="{ 'text-decoration-color': Styles.publicRatingColor }"
+                        :style="{ 'text-decoration-color': Styles.publicRatingColor.backgroundColor }"
                         ref="publicRatingElement"
                     >Public View</h5>
-                    <h5 class="value" :style="{ 'color': Styles.publicRatingColor }">
+                    <h5 class="value" :style="{ 'color': Styles.publicRatingColor.backgroundColor }">
                         {{ statement.public_rating }}
                     </h5>
                 </div>
                 <div class="rating-label our-rating">
                     <h5
                         class="title"
-                        :style="{ 'text-decoration-color': Styles.ourRatingColor }"
+                        :style="{ 'text-decoration-color': Styles.ourRatingColor.backgroundColor }"
                         ref="ourRatingElement"
                     >Our Team View</h5>
-                    <h5 class="value" :style="{ 'color': Styles.ourRatingColor }">
+                    <h5 class="value" :style="{ 'color': Styles.ourRatingColor.backgroundColor }">
                         {{ statement.our_rating }} 
                     </h5>
                 </div>
@@ -46,7 +46,7 @@
             <div 
                 class="hero-cont" 
                 :style="{
-                    backgroundColor: Styles.publicRatingColor,
+                    backgroundColor: Styles.publicRatingColor.backgroundColor,
                     borderBottomRightRadius: statement.links.length ? '0' : '3px',
                     borderBottomLeftRadius: statement.links.length ? '0' : '3px' 
                 }"
@@ -63,7 +63,7 @@
             <div class="card-body">
                 <p>{{ formatContext(statement.context) }}</p>
             </div>
-            <Links :links="statement.links" :publicRatingColor="Styles.publicRatingColor" />
+            <Links :links="statement.links" :publicRatingColor="Styles.publicRatingColor.backgroundColor" />
         </div>
     </div>
     <p v-else>
@@ -76,6 +76,8 @@ import { defineComponent } from 'vue';
 import { StatementType } from '@/interfaces/statements';
 import router from '@/router';
 import Links from './Links.vue';
+import { getCorrectColor } from '@/utils/statementsHelpers';
+import { useStatementsStore } from '@/stores/statements';
 
 export default defineComponent({
     name: 'Card',
@@ -88,32 +90,26 @@ export default defineComponent({
     computed: {
         Styles() {
             const styles = {
-                publicRatingColor: 'gray',
-                ourRatingColor: 'gray',
+                publicRatingColor: {
+                    backgroundColor: '#063948',
+                    color: 'aliceblue'
+                },
+                ourRatingColor: {
+                    backgroundColor: '#063948',
+                    color: 'aliceblue'
+                },
                 secondaryColor: '#063948',
-                heroTextColor: '#063948' // dark blue
+                heroTextColor: 'white' // dark blue
             };
             const getHeroTextColor = (rating: string) => {
                 switch (rating) {
                     case 'Not_True':
-                        return 'white';
+                        return 'aliceblue';
                     default:
                         return styles.heroTextColor;
                 }
             };
-            const getCorrectColor = (rating: string) => {
-                switch (rating) {
-                    case 'Proven_Truth':
-                        return 'rgb(55, 196, 239)';
-                    case 'In_Question':
-                        return 'rgb(239, 190, 55)';
-                    case 'Not_True':
-                        return 'rgb(239, 55, 104)';
-                    default:
-                        console.log('rating', rating);
-                        return 'gray';
-                }
-            };
+
             styles.publicRatingColor = getCorrectColor(this.$props.statement.public_rating);
             styles.ourRatingColor = getCorrectColor(this.$props.statement.our_rating);
             styles.heroTextColor = getHeroTextColor(this.$props.statement.public_rating);
@@ -127,7 +123,6 @@ export default defineComponent({
                 return title;
             return title.slice(0, maxTitleLength) + '...';
         },
-        // Keep as separate funcs because in future, context will need additional formatting
         formatContext(context: string) {
             const maxTitleLength = 150;
             if (context.length < maxTitleLength)
@@ -135,6 +130,7 @@ export default defineComponent({
             return context.slice(0, maxTitleLength) + '...';
         },
         navigateToDetail() {
+            useStatementsStore().$patch({ selectedStatement: this.statement });
             router.push({ name: 'statement-detail', params: { slug: this.statement.slug } });
         },
         addHoverClass(rating_type: string) {
@@ -162,7 +158,9 @@ export default defineComponent({
             }
         },
     },
-    components: { Links }
+    components: { 
+        Links
+    }
 })
 </script>
 
@@ -185,7 +183,7 @@ export default defineComponent({
         margin-bottom: 24px;
         display: flex;
         flex-direction: column;
-        background-color: white;
+        background-color: aliceblue;
         border: 2px solid #063948;
         border-radius: 6px;
         transition: 0.15s ease-in-out;
@@ -206,7 +204,7 @@ export default defineComponent({
                 height: 42px;
                 width: fit-content;
                 padding: 6px;
-                color: white;
+                color: aliceblue;
                 
                 .title {
                     color: #063948;
@@ -231,7 +229,7 @@ export default defineComponent({
                 }
 
                 .hovered {
-                    color: white;
+                    color: aliceblue;
                     text-underline-offset: 4px;
                     text-decoration-style: solid;
                 }

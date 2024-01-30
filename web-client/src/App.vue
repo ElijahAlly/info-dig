@@ -12,18 +12,21 @@
   </nav>
   <!-- Modals (initially hidden) -->
   <CreateStatementModal />
+  <EditStatementModal />
   <router-view />
 </template>
 
 <script lang="ts">
 import CreateStatementModal from '@/components/Statements/CreateStatementModal.vue';
+import EditStatementModal from './components/Statements/EditStatementModal.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    CreateStatementModal
-  }
+    CreateStatementModal,
+    EditStatementModal
+}
 })
 </script>
 
@@ -35,7 +38,13 @@ html, body, #app {
   width: 100vw;
   overflow: hidden; // Prevent scrolling due to rotation
   position: relative; // For pseudo-element positioning
-  // background: linear-gradient(144deg, transparent 42%, #1080ca5a, transparent 72%);
+
+  ::selection {
+    background: #ffb7b7; /* Background color */
+    // background: #42b983;
+    // background: #fcb900;
+    color: #063948; /* Text color */
+  }
 }
 
 body::before {
@@ -43,7 +52,7 @@ body::before {
   position: absolute;
   top: -50%; right: -50%; // Expand the element beyond the viewport
   bottom: -50%; left: -50%;
-  background: linear-gradient(0deg, transparent 42%, #06394836, transparent 58%);
+  background: linear-gradient(0deg, aliceblue 42%, rgba(6, 57, 72, 0.212), aliceblue 58%); // TODO: Allow for color to be changed in settings page
   z-index: -1; // Place it behind the content
 
   // Animation

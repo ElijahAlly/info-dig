@@ -36,7 +36,7 @@ export default defineComponent({
         },
         textColor: {
             type: String,
-            default: 'white'
+            default: 'aliceblue'
         },
         colorsInnerInitial: {
             type: String,

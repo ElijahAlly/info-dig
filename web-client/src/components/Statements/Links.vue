@@ -28,7 +28,7 @@ import { LinkType } from '@/interfaces/statements';
 export default defineComponent({
     name: 'Links',
     mounted() {
-        console.log('links', this.links);
+        // console.log('links', this.links);
     },
     props: {
         links: {
@@ -44,7 +44,7 @@ export default defineComponent({
         linkStyles() {
             return ({
                 background: (i: number) => i === this.hover
-                    ? 'rgba(255, 255, 255, 0.69)' // `linear-gradient(99deg, white 81%, ${this.publicRatingColor})`
+                    ? 'rgba(255, 255, 255, 0.69)' // `linear-gradient(99deg, aliceblue 81%, ${this.publicRatingColor})`
                     : `linear-gradient(108deg, #063948 81%, ${this.publicRatingColor})`,
             });
         },
@@ -72,11 +72,10 @@ export default defineComponent({
         min-width: 12.5%;
         width: 12.5%;
         max-width: 12.5%;
-        color: white;
-        transform: rotate(-90deg);
-        // transform-origin: left top;
-        // white-space: nowrap;
+        color: aliceblue;
         background-color: transparent;
+        font-size: small;
+        
     }
 
     .link-cont {
@@ -89,11 +88,11 @@ export default defineComponent({
         background-color: black;
         cursor: pointer;
         text-decoration: none;
-        color: white;
+        color: aliceblue;
 
         &:hover {
             color: black;
-            background-color: white;
+            background-color: aliceblue;
         }
     }
 }

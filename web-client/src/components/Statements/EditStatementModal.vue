@@ -1,35 +1,39 @@
 <template>
-    <div class="modal" v-if="createStatementModal.isVisible" @click.self="closeModal">
+    <div class="modal" v-if="editStatementModal.isVisible" @click.self="closeModal">
         <div class="modal-content">
             <div class="header-cont">
-                <h2 class="header">Create New Statement</h2>
+                <h2 class="header">Edit Statement</h2>
                 <span class="close" @click="closeModal">&times;</span>
             </div>
             <form @submit.prevent="submitStatement" class="form-cont">
                 <div class="form-group">
                     <label for="statementContent" class="input-label">Content:</label>
-                    <input id="statementContent" class="input-field" v-model="createStatementModal.content" required />
+                    <input id="statementContent" class="input-field" v-model="editStatementModal.content" required />
                 </div>
                 <div class="form-group">
                     <label for="statementContext" class="input-label">Context:</label>
-                    <textarea id="statementContext" v-model="createStatementModal.context" required class="textarea-field"></textarea>
+                    <textarea
+                        id="statementContext"
+                        v-model="editStatementModal.context"
+                        class="textarea-field"
+                        required
+                    ></textarea>
                 </div>
                 <div class="links-group">
-                    <div class="links-cont" v-for="(link, index) in createStatementModal.links" :key="index">
+                    <div class="links-cont" v-for="(link, index) in editStatementModal.links" :key="index">
                         <label :for="'statementLinkUrl' + index" class="input-label">Link {{ index + 1 }}:</label>
                         <div class="link-input-cont">
-                            <input :id="'statementLinkUrl' + index" class="input-field link-field" v-model="link.url" placeholder="URL" required />
-                            <input :id="'statementLinkName' + index" class="input-field link-field" v-model="link.name" placeholder="Short Name Alternative" required />
-                            <img v-if="index !== 0" class="remove-link-btn" src="@/assets/icons/icons8-remove-30.png" @click="() => removeLinkInput(index)" alt="remove-input-icon"/> 
+                            <input :id="'statementLinkUrl' + index" class="input-field link-field" v-model="link.url"
+                                placeholder="URL" />
+                            <input :id="'statementLinkName' + index" class="input-field link-field" v-model="link.name"
+                                placeholder="Short Name Alternative" />
+                            <img v-if="index !== 0" class="remove-link-btn" src="@/assets/icons/icons8-remove-30.png"
+                                @click="() => removeLinkInput(index)" alt="remove-input-icon" />
                         </div>
                     </div>
-                    <img class="add-link-btn" src="@/assets/icons/icons8-add-50.png" @click="addLinkInput" alt="add-icon"/>
+                    <img class="add-link-btn" src="@/assets/icons/icons8-add-50.png" @click="addLinkInput" alt="add-icon" />
                 </div>
-                <div class="form-group">
-                    <label for="userId">UserId &lt;replace with logged-in user_id from state>:</label>
-                    <input id="userId" class="input-field" v-model.number="user_id" type="number" required />
-                </div>
-                <button type="submit" class="submit-btn">Submit</button>
+                <button type="submit" class="submit-btn">Update</button>
             </form>
         </div>
     </div>
@@ -37,33 +41,45 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { createStatement } from '@/api-utils/statementsApi';
-import { NewStatementType } from '@/interfaces/statements';
+import { fetchStatementById, updateStatement } from '@/api-utils/statementsApi';
+import { StatementType, UpdateStatementType } from '@/interfaces/statements';
 import { useModalsStore } from '@/stores/modals';
-import { containsValidLinks, createReadableSlug } from '@/utils/statementsHelpers';
+import { useStatementsStore } from '@/stores/statements';
+import { createReadableSlug, containsValidLinks } from '@/utils/statementsHelpers';
 
 export default defineComponent({
-    name: 'CreateStatementModal',
+    name: 'EditStatementModal',
     mounted() {
-        this.createStatementModal = useModalsStore().getCreateStatement;
+        this.editStatementModal = useModalsStore().editStatement;
     },
     methods: {
         closeModal() {
-            useModalsStore().hideCreateStatements();
+            useModalsStore().hideEditStatements();
         },
         openModal() {
             useModalsStore().showCreateStatements();
         },
         async submitStatement() {
             try {
-                const statementData: NewStatementType = {
-                    content: this.createStatementModal.content,
-                    slug: createReadableSlug(this.createStatementModal.content),
-                    context: this.createStatementModal.context,
-                    user_id: this.user_id, // * TODO: Replace with logged in user id
-                    links: containsValidLinks(this.createStatementModal.links)
+                const statementData: UpdateStatementType = {
+                    statement_id: this.editStatementModal.statement_id,
+                    content: this.editStatementModal.content,
+                    // only create new slug if content is not the same as when first loaded
+                    slug: useStatementsStore().selectedStatement.content === this.editStatementModal.content 
+                        ? this.editStatementModal.content
+                        : createReadableSlug(this.editStatementModal.content), 
+                    context: this.editStatementModal.context,
+                    links: containsValidLinks(this.editStatementModal.links)
                 };
-                await createStatement(statementData);
+                const newStatement = await updateStatement(statementData);
+                if (newStatement) {
+                    useStatementsStore().$patch({
+                        selectedStatement: {
+                            ...useStatementsStore().selectedStatement,
+                            ...newStatement 
+                        } 
+                    });
+                }
                 this.closeModal();
             } catch (error) {
                 console.error('Failed to create statement:', error);
@@ -76,15 +92,21 @@ export default defineComponent({
             useModalsStore().removeEditLink(index);
         }
     },
+    props: {
+        statement: {
+            type: Object as () => StatementType,
+            default: () => ({})
+        }
+    },
     data() {
         return {
-            createStatementModal: {
+            editStatementModal: {
                 isVisible: false,
                 content: '',
+                statement_id: 0,
                 context: '',
                 links: [{ url: '', name: '' }]
             },
-            user_id: 1,
         }
     },
 });
@@ -93,7 +115,8 @@ export default defineComponent({
 <style scoped>
 .modal {
     position: fixed;
-    z-index: 1000; /* Increased z-index for higher stack order */
+    z-index: 1000;
+    /* Increased z-index for higher stack order */
     left: 0;
     top: 0;
     width: 100%;
@@ -140,7 +163,7 @@ export default defineComponent({
                 clip-path: circle();
                 padding: 3px;
             }
-            
+
             .close:hover,
             .close:focus {
                 color: #063948;
@@ -162,7 +185,7 @@ export default defineComponent({
                 margin-bottom: 1rem;
                 width: 100%;
                 height: 100%;
-               
+
                 /* .input-label {
 
                 } */
@@ -174,7 +197,7 @@ export default defineComponent({
                     border: 1px solid #ccc;
                     border-radius: 5px;
                 }
-                
+
                 .textarea-field {
                     min-width: 60%;
                     width: 60%;
@@ -196,7 +219,7 @@ export default defineComponent({
 
                 .links-cont {
                     width: 60%;
-                
+
                     .inputlabel {
                         /* justify-self: flex-start; */
                     }
@@ -220,7 +243,8 @@ export default defineComponent({
                             cursor: pointer;
 
                             &:hover {
-                                rotate: -21deg 21 3 1;;
+                                rotate: -21deg 21 3 1;
+                                ;
                             }
                         }
                     }
@@ -233,26 +257,25 @@ export default defineComponent({
                     clip-path: circle();
                 }
             }
-            
+
             .submit-btn {
-                background-color: #107fca; /* Primary color for submit button */
+                background-color: #107fca;
+                /* Primary color for submit button */
                 color: aliceblue;
                 padding: 0.5rem 1rem;
                 border: none;
-                border-radius: 5px; /* Rounded corners for button */
+                border-radius: 5px;
+                /* Rounded corners for button */
                 cursor: pointer;
                 font-weight: bold;
-                margin-top: 1rem; /* Space above the button */
+                margin-top: 1rem;
+                /* Space above the button */
             }
-            
+
             .submit-btn:hover {
-                background-color: #0a5c8a; /* Darker shade on hover */
+                background-color: #0a5c8a;
+                /* Darker shade on hover */
             }
         }
     }
-}
-
-
-
-
-</style>
+}</style>

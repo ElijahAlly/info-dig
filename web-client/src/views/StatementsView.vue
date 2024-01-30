@@ -29,8 +29,6 @@
         <div class="statements">
             <!--
                 * Include a search bar [content, context]
-                * Put each statement into cards, 3 separate columns, with 3 different sorting modes the user can choose: [public_rating, our_rating, mixed/random] 
-                * by statement rating ['Proven_Truth', 'In_Question', 'Not_True'] 
             -->
             <Cards />
         </div>
